@@ -12,12 +12,54 @@
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "llms-txt-generator",
+          "title": "LLMS Generator",
+          "icon": "$(file-code)"
+        }
+      ]
+    },
+    "views": {
+      "llms-txt-generator": [
+        {
+          "id": "llms-txt-generator.fileView",
+          "name": "File Selection",
+          "icon": "$(file-code)"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "llms-txt-generator.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "llms-txt-generator.refresh",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "llms-txt-generator.generate",
+        "title": "Generate llms.txt",
+        "icon": "$(cloud-upload)"
       }
-    ]
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "llms-txt-generator.refresh",
+          "when": "view == llms-txt-generator.fileView",
+          "group": "navigation"
+        },
+        {
+          "command": "llms-txt-generator.generate",
+          "when": "view == llms-txt-generator.fileView",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",
@@ -34,15 +76,18 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.107.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "typescript-eslint": "^8.48.1",
-    "eslint": "^9.39.1",
+    "@types/vscode": "^1.107.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
     "esbuild": "^0.27.1",
+    "eslint": "^9.39.1",
     "npm-run-all": "^4.1.5",
     "typescript": "^5.9.3",
-    "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
+    "typescript-eslint": "^8.48.1"
+  },
+  "dependencies": {
+    "ignore": "^7.0.5"
   }
 }

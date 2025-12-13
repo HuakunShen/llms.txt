@@ -19,6 +19,10 @@ importers:
         version: 5.9.2
 
   apps/llms-txt-generator:
+    dependencies:
+      ignore:
+        specifier: ^7.0.5
+        version: 7.0.5
     devDependencies:
       '@types/mocha':
         specifier: ^10.0.10
