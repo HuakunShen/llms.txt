@@ -103,7 +103,8 @@
     "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "build:webview": "cd ../llms-txt-webview && pnpm install && pnpm run build"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
