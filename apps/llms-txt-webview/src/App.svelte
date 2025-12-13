@@ -77,6 +77,9 @@
       patterns: validPatterns,
     });
   }
+  function generate() {
+    vscode.postMessage({ command: 'generate' });
+  }
 </script>
 
 <main class="container">
@@ -97,7 +100,10 @@
       </li>
     {/each}
   </ul>
-  <button class="btn-add" on:click={addPattern}>Add Pattern</button>
+  <div class="actions">
+    <button class="btn-add" on:click={addPattern}>Add Pattern</button>
+    <button class="btn-generate" on:click={generate}>Generate llms.txt</button>
+  </div>
 </main>
 
 <style>
@@ -156,6 +162,11 @@
     border: none;
     font-size: 16px;
   }
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
   .btn-add {
     background: var(--vscode-button-background);
     color: var(--vscode-button-foreground);
@@ -166,5 +177,16 @@
   }
   .btn-add:hover {
     background: var(--vscode-button-hoverBackground);
+  }
+  .btn-generate {
+    background: var(--vscode-button-secondaryBackground);
+    color: var(--vscode-button-secondaryForeground);
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .btn-generate:hover {
+    background: var(--vscode-button-secondaryHoverBackground);
   }
 </style>

@@ -37,6 +37,9 @@ export class GlobSelectionPanel {
                             patterns: GlobSelectionPanel._currentPatterns.map(p => ({ text: p, count: 0 })) // Counts update later
                         });
                         return;
+                    case 'generate':
+                        vscode.commands.executeCommand('llms-txt-generator.generate');
+                        return;
                 }
             },
             null,

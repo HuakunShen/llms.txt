@@ -1,10 +1,41 @@
 # llms-txt-generator README
 
-This is the README for your extension "llms-txt-generator". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension# LLMS.txt Generator
+
+A VS Code extension to generate `llms.txt` files for your project, making your codebase easily consumable by LLMs.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **File Tree Selection**: Interactively select files and folders to include in your `llms.txt`.
+- **Recursive Selection**: Smart checkbox logic propagates selection state up and down the directory tree.
+- **Rich Glob Pattern Manager**:
+  - Add/Remove multiple glob patterns (e.g., `**/*.ts`, `!**/node_modules/**`).
+  - View live match counts for each pattern.
+  - Persists patterns across sessions.
+  - Automatically selects matched files in the tree view.
+- **Generate on Demand**: specific "Generate llms.txt" button to create the file.
+- **Ignore Support**: Respects `.gitignore` by default.
+
+## Usage
+
+1. Open the "LLMS Generator" view in the Activity Bar.
+2. Select files manually or use the "Select by Glob" button.
+3. Manage your patterns in the "Glob Manager" panel.
+4. Click "Generate llms.txt" (in the tree view title or Glob Manager).
+
+## Development
+
+### Build Webview
+The UI is built with Svelte. To rebuild it:
+```bash
+npm run build:webview
+```
+
+### Package Extension
+```bash
+npm run package
+```
+hots of your extension in action. Image paths are relative to this README file.
 
 For example if there is an image subfolder under your extension project workspace:
 
