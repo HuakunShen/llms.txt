@@ -4,6 +4,7 @@ import * as path from 'path';
 export class FileTreeItem extends vscode.TreeItem {
     public children: FileTreeItem[] | undefined;
     public ignored: boolean = false;
+    public parent: FileTreeItem | undefined;
 
     constructor(
         public readonly uri: vscode.Uri,
@@ -17,6 +18,14 @@ export class FileTreeItem extends vscode.TreeItem {
         
         // Customize label to show just the name
         this.label = path.basename(uri.fsPath);
+
+        if (type === vscode.FileType.Directory) {
+            this.command = {
+                command: 'llms-txt-generator.toggleDirectory',
+                title: 'Toggle Directory',
+                arguments: [this]
+            };
+        }
     }
     
     // Helper to update checkbox state

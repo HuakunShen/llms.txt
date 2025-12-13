@@ -44,12 +44,42 @@
         "command": "llms-txt-generator.generate",
         "title": "Generate llms.txt",
         "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "llms-txt-generator.selectByGlob",
+        "title": "Select by Glob",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "llms-txt-generator.checkAll",
+        "title": "Select All",
+        "icon": "$(check-all)"
+      },
+      {
+        "command": "llms-txt-generator.uncheckAll",
+        "title": "Unselect All",
+        "icon": "$(clear-all)"
       }
     ],
     "menus": {
       "view/title": [
         {
           "command": "llms-txt-generator.refresh",
+          "when": "view == llms-txt-generator.fileView",
+          "group": "navigation"
+        },
+        {
+          "command": "llms-txt-generator.checkAll",
+          "when": "view == llms-txt-generator.fileView",
+          "group": "navigation"
+        },
+        {
+          "command": "llms-txt-generator.uncheckAll",
+          "when": "view == llms-txt-generator.fileView",
+          "group": "navigation"
+        },
+        {
+          "command": "llms-txt-generator.selectByGlob",
           "when": "view == llms-txt-generator.fileView",
           "group": "navigation"
         },
@@ -88,6 +118,7 @@
     "typescript-eslint": "^8.48.1"
   },
   "dependencies": {
-    "ignore": "^7.0.5"
+    "ignore": "^7.0.5",
+    "minimatch": "^10.1.1"
   }
 }
