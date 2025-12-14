@@ -25,6 +25,13 @@ export class FileTreeItem extends vscode.TreeItem {
                 title: 'Toggle Directory',
                 arguments: [this]
             };
+        } else {
+            // For files, open them when clicked
+            this.command = {
+                command: 'vscode.open',
+                title: 'Open File',
+                arguments: [uri]
+            };
         }
     }
     
