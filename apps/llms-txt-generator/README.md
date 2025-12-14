@@ -4,14 +4,6 @@ This is the README for your extension# LLMS.txt Generator
 
 A VS Code extension to generate `llms.txt` files for your project, making your codebase easily consumable by LLMs.
 
-## Publish
-Bump version in `package.json`.
-
-```bash
-bun vsce package --no-dependencies
-bun vsce publish --packagePath llms-txt-generator-0.0.1.vsix
-```
-
 ## Features
 
 - **File Tree Selection**: Interactively select files and folders to include in your `llms.txt`.
@@ -34,20 +26,34 @@ bun vsce publish --packagePath llms-txt-generator-0.0.1.vsix
 ## Development
 
 ### Build Webview
+
 The UI is built with Svelte. To rebuild it:
+
 ```bash
 npm run build:webview
 ```
 
 ### Build VSIX
+
 To package the extension into a `.vsix` file for manual installation or publishing:
 
 ```bash
 npm run package
 ```
+
 This will create a `llms-txt-generator-x.y.z.vsix` file in the project root.
 
 ### Publish
+
+Bump version in `package.json`.
+
+```bash
+bun vsce package --no-dependencies
+bun vsce publish --packagePath llms-txt-generator-0.0.1.vsix
+```
+
+## Publish
+
 Bump version in `package.json`.
 
 ```bash

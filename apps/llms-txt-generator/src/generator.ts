@@ -18,7 +18,7 @@ export function generateLLMsTxt(files: string[], rootPath: string): string {
     for (const filePath of files) {
         const relativePath = path.relative(rootPath, filePath);
         const fileName = path.basename(filePath);
-        output += `--- ${fileName} ---\n\n`;
+        output += `--- ${relativePath} ---\n\n`;
         
         try {
             const content = fs.readFileSync(filePath, 'utf-8');
