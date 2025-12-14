@@ -3,7 +3,7 @@
   "displayName": "llms.txt Generator",
   "icon": "icon.png",
   "description": "Generate llms.txt for your project",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publisher": "h5s",
   "repository": {
     "type": "git",
