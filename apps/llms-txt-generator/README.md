@@ -16,8 +16,8 @@ A VS Code extension to generate `llms.txt` files for your project, making your c
 - **Generate on Demand**: specific "Generate llms.txt" button to create the file.
 - **Ignore Support**: Respects `.gitignore` by default.
 
-![demo1](./docs/demo1.png)
-![demo2](./docs/demo2.png)
+![](https://imgur.com/GNQlmz0.png)
+![](https://imgur.com/9h0YjJn.png)
 
 ## Usage
 

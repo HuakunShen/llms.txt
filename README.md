@@ -2,8 +2,8 @@
 
 This repository contains tools for working with `llms.txt` files, a convention for providing repository context to Large Language Models (LLMs).
 
-![](./apps/llms-txt-generator/docs/demo1.png)
-![](./apps/llms-txt-generator/docs/demo2.png)
+![](https://imgur.com/GNQlmz0.png)
+![](https://imgur.com/9h0YjJn.png)
 
 ## Projects
 
