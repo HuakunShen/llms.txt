@@ -1,8 +1,10 @@
 {
   "name": "llms-txt-generator",
   "displayName": "llms.txt Generator",
+  "icon": "icon.png",
   "description": "Generate llms.txt for your project",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "publisher": "h5s",
   "repository": {
     "type": "git",
     "url": "https://github.com/HuakunShen/llms.txt"
