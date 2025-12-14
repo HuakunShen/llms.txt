@@ -34,7 +34,7 @@ export class GlobSelectionPanel {
                     case 'requestInitialState':
                         this._panel.webview.postMessage({
                             command: 'initialState',
-                            patterns: GlobSelectionPanel._currentPatterns.map(p => ({ text: p, count: 0 })) // Counts update later
+                            patterns: GlobSelectionPanel._currentPatterns // Send strings, Svelte will map to objects
                         });
                         return;
                     case 'generate':
