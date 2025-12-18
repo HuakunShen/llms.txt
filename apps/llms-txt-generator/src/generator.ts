@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export function generateLLMsTxt(files: string[], rootPath: string): string {
+    const sortedFiles = sortFilesTopLevelFirst(files, rootPath);
     let output = 'Selected Files Directory Structure:\n\n';
     
     // Generate Tree Structure
@@ -11,11 +12,11 @@ export function generateLLMsTxt(files: string[], rootPath: string): string {
     // Building a tree string is a bit complex, let's stick to the example format.
     
     // 1. Build a mini tree structure of selected files
-    const treeLines = generateTreeStructure(files, rootPath);
+    const treeLines = generateTreeStructure(sortedFiles, rootPath);
     output += treeLines + '\n\n';
 
     // 2. Append file contents
-    for (const filePath of files) {
+    for (const filePath of sortedFiles) {
         const relativePath = path.relative(rootPath, filePath);
         const fileName = path.basename(filePath);
         output += `--- ${relativePath} ---\n\n`;
@@ -29,6 +30,36 @@ export function generateLLMsTxt(files: string[], rootPath: string): string {
     }
 
     return output;
+}
+
+function sortFilesTopLevelFirst(files: string[], rootPath: string): string[] {
+    // We want deterministic output where "top-level" files come first.
+    // Example: README.md (depth 1) should come before apps/foo/bar.ts (depth 3).
+    //
+    // Strategy:
+    // - De-dupe
+    // - Sort by relative-path depth ascending
+    // - Then sort lexicographically by normalized relative path
+    const uniqueFiles = Array.from(new Set(files));
+
+    const normalizeRel = (absPath: string) =>
+        path.relative(rootPath, absPath).split(path.sep).join('/');
+
+    uniqueFiles.sort((a, b) => {
+        const ra = normalizeRel(a);
+        const rb = normalizeRel(b);
+
+        const da = ra.length === 0 ? 0 : ra.split('/').length;
+        const db = rb.length === 0 ? 0 : rb.split('/').length;
+
+        if (da !== db) {
+            return da - db;
+        }
+
+        return ra.localeCompare(rb);
+    });
+
+    return uniqueFiles;
 }
 
 function generateTreeStructure(files: string[], rootPath: string): string {
