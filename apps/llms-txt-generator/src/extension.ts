@@ -13,18 +13,29 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const fileTreeProvider = new FileTreeProvider(rootPath);
 
-    const treeView = vscode.window.createTreeView('llms-txt-generator.fileView', {
-        treeDataProvider: fileTreeProvider,
-        manageCheckboxStateManually: true
-    });
+	const treeView = vscode.window.createTreeView('llms-txt-generator.fileView', {
+		treeDataProvider: fileTreeProvider,
+		manageCheckboxStateManually: true
+	});
 
-    // ... (keep existing checkbox listener) ...
-    context.subscriptions.push(treeView.onDidChangeCheckboxState(e => {
-        for (const [item, state] of e.items) {
-             const isChecked = state === vscode.TreeItemCheckboxState.Checked;
-             fileTreeProvider.toggleCheckbox(item as FileTreeItem); 
-        }
-    }));
+	// Track expanded directories so "click-to-toggle" can collapse too.
+	// (Without this, our folder click command can only ever expand.)
+	const expandedElements = new Set<string>();
+	context.subscriptions.push(treeView.onDidExpandElement((e) => {
+		const item = e.element as FileTreeItem;
+		expandedElements.add(item.uri.toString());
+	}));
+	context.subscriptions.push(treeView.onDidCollapseElement((e) => {
+		const item = e.element as FileTreeItem;
+		expandedElements.delete(item.uri.toString());
+	}));
+
+	// ... (keep existing checkbox listener) ...
+	context.subscriptions.push(treeView.onDidChangeCheckboxState(e => {
+		for (const [item] of e.items) {
+			fileTreeProvider.toggleCheckbox(item as FileTreeItem);
+		}
+	}));
 
     // Register Commands
 	context.subscriptions.push(vscode.commands.registerCommand('llms-txt-generator.refresh', () => {
@@ -116,32 +127,21 @@ export function activate(context: vscode.ExtensionContext) {
         fileTreeProvider.uncheckAll();
     }));
 
-    context.subscriptions.push(vscode.commands.registerCommand('llms-txt-generator.toggleDirectory', (item: FileTreeItem) => {
-        // Toggle expansion
-        // We can't know the current state easily from here without tracking it in model or trusting tree view.
-        // But the user clicked it, so they want to toggle.
-        // We can use the 'expand' option. 
-        // If it's collapsed, we expand. If expanded, we collapse.
-        // But how do we know? item.collapsibleState is static initial state.
-        
-        // Trick: reveal it. If we pick an arbitrary state, say Expand, it opens.
-        // To toggle, we might need to rely on native click behavior?
-        // But the user said "click on the directory itself nothing happens".
-        // This is because we have a TreeDataProvider but maybe didn't set collapsibleState correctly or the item itself is handling clicks differently?
-        // Actually, in TreeView, clicking the label usually selects. Clicking the twisty expands.
-        // To make clicking the label expand, we need to programmatically expand.
-        // But vscode API `reveal` doesn't return state.
-        // Let's force expand for now, or just trust standard behavior?
-        // User wants standard behavior on the label. 
-        // We can try to just reveal with expand: true. If already expanded, it does nothing?
-        // Or we use `expand: !current`. We don't know current.
-        
-        // Actually, typically we just want to expand. If user clicks a folder, they usually want to see inside.
-        // Let's Expand.
-        treeView.reveal(item, { expand: true, focus: false, select: true });
-        // Getting "toggle" behavior (close if open) is hard without state tracking.
-        // But "Expand" is better than "Nothing".
-    }));
+	context.subscriptions.push(vscode.commands.registerCommand('llms-txt-generator.toggleDirectory', async (item: FileTreeItem) => {
+		const key = item.uri.toString();
+
+		// Ensure the tree view has focus/selection so list actions apply to it.
+		await treeView.reveal(item, { focus: true, select: true });
+
+		if (expandedElements.has(key)) {
+			// Collapse the currently selected element in the focused tree.
+			await vscode.commands.executeCommand('list.collapse');
+			expandedElements.delete(key);
+		} else {
+			await treeView.reveal(item, { expand: true, focus: true, select: true });
+			expandedElements.add(key);
+		}
+	}));
 }
 
 export function deactivate() {}
