@@ -54,12 +54,3 @@ Bump version in `package.json`.
 bun vsce package --no-dependencies
 bun vsce publish --packagePath llms-txt-generator-0.0.1.vsix
 ```
-
-## Publish
-
-Bump version in `package.json`.
-
-```bash
-bun vsce package --no-dependencies
-bun vsce publish --packagePath llms-txt-generator-0.0.1.vsix
-```
